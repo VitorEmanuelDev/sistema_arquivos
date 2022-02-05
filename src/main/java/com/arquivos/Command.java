@@ -53,11 +53,16 @@ public enum Command {
 		@Override
 		Path execute(Path path) throws IOException{
 
+			Path filePath;
 			String pathStr = path.toString();       	
 			String argStr = parameters[1];
-			path = Paths.get(pathStr + File.separator + argStr);
-			FileReader fileReader = new FileReader();
-			fileReader.read(path);
+			if(!argStr.contains(".txt")) {
+				throw new UnsupportedOperationException("File format not supported");
+			}else {
+				filePath = Paths.get(pathStr + File.separator + argStr);
+				FileReader fileReader = new FileReader();
+				fileReader.read(filePath);
+			}
 			return path;
 		}
 	},
@@ -71,7 +76,6 @@ public enum Command {
 		@Override
 		Path execute(Path path) {
 
-			//System.out.println(path);
 			final String ROOT = File.separator + "home" + File.separator + "vitor" + File.separator + "Desktop" + File.separator + "UTFPR" + File.separator + "hd";
 			Path currentPath = Paths.get(ROOT);
 
@@ -98,10 +102,18 @@ public enum Command {
 		@Override
 		Path execute(Path path) {
 
+			Path dirPath;
 			String pathStr = path.toString();
-			path = Paths.get(pathStr + File.separator + parameters[1]);
+			dirPath = Paths.get(pathStr + File.separator + parameters[1]);
+			String dirPathStr = dirPath.toString();
+			// Get the file
+			File file = new File(dirPathStr);
 
-			return path;
+			if (file.isDirectory()) {
+				return path = Paths.get(pathStr + File.separator + parameters[1]);
+			}else {
+				throw new UnsupportedOperationException("Not a directory.");
+			}
 		}
 	},
 	DETAIL() {
@@ -129,7 +141,7 @@ public enum Command {
 			System.out.println("Creation time: " + basicAttribs.creationTime());
 			System.out.println("Last access time: " + basicAttribs.lastAccessTime());
 			System.out.println("Last modified time: " + basicAttribs.lastModifiedTime());
-			
+
 			return path;
 		}
 	},
