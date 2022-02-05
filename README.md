@@ -1,5 +1,5 @@
 # sistema_arquivos
-Implementar comandos para um filesystem simples usando java NIO
+Filesystem simples usando java NIO
 
 Comandos:
 - SHOW mostra o conteúdo de um arquivo
